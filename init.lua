@@ -76,6 +76,9 @@ require('lazy').setup({
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
+  -- File Navigation
+  'theprimeagen/harpoon',
+
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
   {
@@ -213,6 +216,12 @@ require('lazy').setup({
   },
 
   {
+    -- tmux integration
+    'christoomey/vim-tmux-navigator',
+    lazy = false
+  },
+
+  {
     -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
     -- Enable `lukas-reineke/indent-blankline.nvim`
@@ -336,6 +345,24 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = highlight_group,
   pattern = '*',
 })
+
+-- [[ Harpoon Keymaps ]]
+local mark = require("harpoon.mark")
+local ui = require("harpoon.ui")
+
+vim.keymap.set("n", "<leader>a", mark.add_file)
+vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
+
+vim.keymap.set("n", "<C-h>", function() ui.nav_file(1) end)
+vim.keymap.set("n", "<C-t>", function() ui.nav_file(2) end)
+vim.keymap.set("n", "<C-n>", function() ui.nav_file(3) end)
+vim.keymap.set("n", "<C-s>", function() ui.nav_file(4) end)
+
+-- [[ Tmux Navigation Keymays ]]
+vim.keymap.set('n', '<C-g>', '<C-U>TmuxNavigateLeft<cr>')
+vim.keymap.set('n', '<C-c>', '<C-U>TmuxNavigateDown<cr>')
+vim.keymap.set('n', '<C-r>', '<C-U>TmuxNavigateUp<cr>')
+vim.keymap.set('n', '<C-l>', '<C-U>TmuxNavigateRight<cr>')
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
